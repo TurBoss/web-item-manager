@@ -18,7 +18,7 @@ addHash().then(() => console.log('yaaa'));
 
 */
 
-/*  eslint no-console: 0  */
 app.listen(process.env.PORT || 6922, () => {
+  /*  eslint no-console: 0  */
   console.log('Express server started');
 });
