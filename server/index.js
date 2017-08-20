@@ -1,6 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
 const fse = require('fs-extra');
+
+const userRouter = require('./api/routes/userRoute');
 
 const app = express();
 
@@ -15,8 +18,12 @@ const addHash = async () => {
 };
 
 addHash().then(() => console.log('yaaa'));
-
 */
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use('/api/user', userRouter);
 
 app.listen(process.env.PORT || 6922, () => {
   /*  eslint no-console: 0  */

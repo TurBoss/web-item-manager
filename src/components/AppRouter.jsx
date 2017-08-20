@@ -1,7 +1,5 @@
-import React from "react";
+import React from 'react';
 
-const AppRouter = props => (
-  <div></div>
+export default (props) => (
+  <div />
 );
-
-export default AppRouter;
