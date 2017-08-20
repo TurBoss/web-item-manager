@@ -8,19 +8,6 @@ const userRouter = require('./api/routes/userRoute');
 
 const app = express();
 
-/*
-const addHash = async () => {
-  const hash = await bcrypt.hash('ss', 10);
-  const data = await fse.readJson('./server/users.json');
-
-  data.notvita.password = hash;
-
-  await fse.writeJson('./server/users.json', data);
-};
-
-addHash().then(() => console.log('yaaa'));
-*/
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
