@@ -1,3 +1,8 @@
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED
+} from '../actions/userAction';
 
 // TODO check localStorage if token exists and if it has expired
 const defaultState = {

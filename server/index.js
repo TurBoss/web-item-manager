@@ -1,7 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const fse = require('fs-extra');
 require('dotenv').config();
 
 const userRouter = require('./api/routes/userRoute');
