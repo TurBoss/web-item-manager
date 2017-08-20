@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const users = require('../../users.json');
 
 function userExists(user) {
@@ -26,5 +27,18 @@ exports.login = (req, res) => {
     });
   }
 
-  return res.json({ message: `login attempt.. ${username} .. `, password });
+  const payload = {
+    username,
+    group: users[username].group
+  };
+
+  const token = jwt.sign(payload, process.env.JWTSECRET, {
+    expiresIn: '24h'
+  });
+
+  return res.json({
+    success: true,
+    message: `${username} logged in`,
+    token
+  });
 };
