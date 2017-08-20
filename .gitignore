@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+# sensitive info
+/server/users.json
+
 # testing
 /coverage
 
