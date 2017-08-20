@@ -9,7 +9,7 @@ const app = express();
 
 /*
 const addHash = async () => {
-  const hash = await bcrypt.hash('jesshockey692222', 10);
+  const hash = await bcrypt.hash('ss', 10);
   const data = await fse.readJson('./server/users.json');
 
   data.notvita.password = hash;
