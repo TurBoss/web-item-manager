@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -8,7 +9,7 @@ const extractPlugin = new ExtractTextPlugin({
 });
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: './client/index.jsx',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
@@ -49,6 +50,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html'
     }),
-    new CleanWebpackPlugin(['dist'])
+    new CleanWebpackPlugin(['dist']),
+    new webpack.EnvironmentPlugin({
+      PORT: 55106
+    })
   ]
 };
