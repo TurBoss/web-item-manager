@@ -4,7 +4,7 @@ import {
   LOGIN_FAILED
 } from '../actions/userAction';
 
-// TODO check localStorage if token exists and if it has expired
+// TODO check localStorage if token exists and if it has expired - isAuthenticated
 const defaultState = {
   isFetching: false,
   isAuthenticated: false

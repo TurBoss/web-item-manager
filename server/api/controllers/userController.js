@@ -42,3 +42,7 @@ exports.login = (req, res) => {
     token
   });
 };
+
+exports.logout = () => {
+  return true;
+};
