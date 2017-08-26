@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "node server",
+    "server": "node server",
+    "server:dev": "cross-env NODE_ENV=dev node server",
     "build": "webpack",
     "dev": "webpack-dev-server --content-base public",
     "test": "jest --no-cache",
@@ -44,6 +45,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.16",
+    "cross-env": "^5.0.5",
     "css-loader": "^0.28.4",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",

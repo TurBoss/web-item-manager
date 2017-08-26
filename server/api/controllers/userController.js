@@ -1,27 +1,23 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const users = require('../../users.json');
+const fse = require('fs-extra');
+const config = require('../../config');
 
-function userExists(user) {
-  return user in users;
-}
-
-function checkPassword(username, password) {
-  const hashedPassword = users[username].password;
-
-  return bcrypt.compareSync(password, hashedPassword);
-}
-
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   const { username, password } = req.body;
+  const users = await fse.readJSON(config.db.users);
 
-  if (!userExists(username)) {
+  const usernameCheck = username in users;
+
+  if (!usernameCheck) {
     return res.status(401).json({
       message: `User: ${username} doesn't exist`
     });
   }
 
-  if (!checkPassword(username, password)) {
+  const passwordCheck = await bcrypt.compare(password, users[username].password);
+
+  if (!passwordCheck) {
     return res.status(401).json({
       message: 'Incorrect password'
     });
