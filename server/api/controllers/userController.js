@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const fse = require('fs-extra');
 const config = require('../../config');
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   const { username, password } = req.body;
   const users = await fse.readJSON(config.db.users);
 

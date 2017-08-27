@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "server": "node server",
-    "server:dev": "cross-env NODE_ENV=dev node server",
+    "server:dev": "cross-env NODE_ENV=development node server",
     "build": "webpack",
     "dev": "webpack-dev-server --content-base public",
     "test": "jest --no-cache",
