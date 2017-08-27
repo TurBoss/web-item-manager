@@ -16,3 +16,6 @@ app.listen(config.app.port || 55106, () => {
   /*  eslint no-console: 0  */
   console.log('Express server started');
 });
+
+// for testing
+module.exports = app;
