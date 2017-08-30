@@ -5,6 +5,7 @@
 
 # sensitive info
 /server/users.json
+*.sqlite
 
 # testing
 /coverage

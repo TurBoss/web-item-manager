@@ -4,6 +4,7 @@ module.exports = {
       port: 6922
     },
     db: {
+      path: './server/database/tests.sqlite',
       users: './server/users.json'
     }
   },
@@ -12,6 +13,7 @@ module.exports = {
       port: 12336
     },
     db: {
+      path: './server/database/tests.sqlite',
       users: './server/tests/users-test.json'
     }
   }
