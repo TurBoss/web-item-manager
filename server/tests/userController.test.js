@@ -7,9 +7,9 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('userController', () => {
-  describe('login controller', () => {
-    it('should fail if username wasn\'t found', (done) => {
+describe('userController()', function() {
+  describe('login()', function() {
+    it('should fail if username wasn\'t found', function(done) {
       chai.request(app)
       .post('/api/user/login')
       .send({ username: 'fakename' })
@@ -20,7 +20,7 @@ describe('userController', () => {
       });
     });
 
-    it('should fail if password doesn\'t match', (done) => {
+    it('should fail if password doesn\'t match', function(done) {
       chai.request(app)
       .post('/api/user/login')
       .send({ username: 'test', password: 'fake' })
@@ -31,7 +31,7 @@ describe('userController', () => {
       });
     });
 
-    it('should return a token if successful', (done) => {
+    it('should return a token if successful', function(done) {
       chai.request(app)
       .post('/api/user/login')
       .send({ username: 'test', password: '123' })
@@ -44,10 +44,10 @@ describe('userController', () => {
     });
   });
 
-  describe('addUser controller', () => {
+  describe('addUser()', function() {
     let token = 'Bearer ';
 
-    before((done) => {
+    before(function(done) {
       chai.request(app)
       .post('/api/user/login')
       .send({ username: 'test', password: '123' })
@@ -57,7 +57,7 @@ describe('userController', () => {
       });
     });
 
-    it('should require a valid token', (done) => {
+    it('should require a valid token', function(done) {
       chai.request(app)
       .post('/api/user/add')
       .send({ username: 'test', password: '123', token: 'faketoken' })
@@ -67,7 +67,7 @@ describe('userController', () => {
       });
     });
 
-    it('should require a username and password', (done) => {
+    it('should require a username and password', function(done) {
       chai.request(app)
       .post('/api/user/add')
       .set('Authorization', token)
@@ -79,7 +79,7 @@ describe('userController', () => {
       });
     });
 
-    it('shouldn\'t add duplicate usernames', (done) => {
+    it('shouldn\'t add duplicate usernames', function(done) {
       chai.request(app)
       .post('/api/user/add')
       .set('Authorization', token)
