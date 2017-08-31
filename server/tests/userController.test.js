@@ -8,6 +8,42 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('userController()', function() {
+  let token = 'Bearer ';
+
+  before(function(done) {
+    chai.request(app)
+    .post('/api/user/login')
+    .send({ username: 'test', password: '123' })
+    .end((err, res) => {
+      token += res.body.token;
+      done();
+    });
+  });
+
+  describe('getUser()', function(done) {
+    it('should require a valid token', function(done) {
+      chai.request(app)
+      .get('/api/user/get')
+      .send({ username: 'test', password: '123', token: 'faketoken' })
+      .end((err, res) => {
+        res.should.have.status(401);
+        done();
+      });
+    });
+
+    describe('get all users', function(done) {
+      it('shouldn\'t return a empty list', function(done) {
+        chai.request(app)
+        .get('/api/user/get')
+        .send({ username: 'test', password: '123', token })
+        .end((err, res) => {
+          res.body.success.should.equal(true);
+          done();
+        });
+      });
+    });
+  });
+
   describe('login()', function() {
     it('should fail if username wasn\'t found', function(done) {
       chai.request(app)
@@ -45,18 +81,6 @@ describe('userController()', function() {
   });
 
   describe('addUser()', function() {
-    let token = 'Bearer ';
-
-    before(function(done) {
-      chai.request(app)
-      .post('/api/user/login')
-      .send({ username: 'test', password: '123' })
-      .end((err, res) => {
-        token += res.body.token;
-        done();
-      });
-    });
-
     it('should require a valid token', function(done) {
       chai.request(app)
       .post('/api/user/add')
@@ -90,5 +114,7 @@ describe('userController()', function() {
         done();
       });
     });
+
+    it('should add a user to database');
   });
 });

@@ -3,6 +3,25 @@ const jwt = require('jsonwebtoken');
 const db = require('../../utils/database').getDb();
 const isValidToken = require('../../utils/isValidToken');
 
+exports.getUser = async (req, res, next) => {
+  const token = isValidToken(req.headers.authorization);
+
+  if (!token) {
+    return res.status(401).json({
+      message: 'Invalid token'
+    });
+  }
+
+  // get single user
+
+  const users = db.prepare('SELECT id AND name FROM users').get();
+
+  return {
+    success: true,
+    users
+  };
+};
+
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
 
