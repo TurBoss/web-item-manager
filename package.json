@@ -9,7 +9,7 @@
     "build": "webpack",
     "dev": "webpack-dev-server --content-base public",
     "client:test": "jest --no-cache",
-    "test": "mocha server/tests/**/*",
+    "test": "NODE_ENV=test mocha server/tests/**/*",
     "lint": "eslint **/*.js{,x} && npm run lint:style",
     "lint:style": "stylelint --syntax scss src/**/*.scss; exit 0"
   },
