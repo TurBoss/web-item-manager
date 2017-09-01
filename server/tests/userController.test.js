@@ -12,10 +12,6 @@ describe('userController()', function() {
   let token = 'Bearer ';
 
   before(function(done) {
-    db.init();
-    db.insertUser({ name: 'test', password: '123', admin: true, test: false });
-    db.insertUser({ name: 'test2', password: '123', admin: false, test: false });
-
     chai.request(app)
     .post('/api/user/login')
     .send({ username: 'test', password: '123' })
@@ -113,11 +109,5 @@ describe('userController()', function() {
     });
 
     it('should add a user to database');
-  });
-
-  after(function(done) {
-    db.drop();
-    db.close();
-    done();
   });
 });
