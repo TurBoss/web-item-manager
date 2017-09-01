@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../../utils/database').getDb();
+const db = require('../../utils/database').db;
 const isValidToken = require('../../utils/isValidToken');
 
 exports.getUser = async (req, res, next) => {
@@ -66,7 +66,12 @@ exports.addUser = async (req, res, next) => {
     });
   }
 
-  const { username, password } = req.body;
+  const {
+    username,
+    password,
+    admin,
+    test
+  } = req.body;
 
   if (!username || !password) {
     return res.status(400).json({
@@ -82,9 +87,12 @@ exports.addUser = async (req, res, next) => {
     });
   }
 
-  const cryptedPassword = await bcrypt.hash(password, 10);
-
-  db.prepare(`INSERT INTO users (name, password) VALUES ('${username}', '${cryptedPassword}')`).run();
+  db.insertUser({
+    username,
+    password,
+    admin,
+    test
+  });
 
   return res.json({
     success: true,

@@ -6,7 +6,6 @@
     "server": "node server",
     "server:dev": "cross-env NODE_ENV=development node server",
     "server:test": "cross-env NODE_ENV=test mocha server/tests/**/*",
-    "s:test": "node ./scripts/server-test.js",
     "build": "webpack",
     "dev": "webpack-dev-server --content-base public",
     "client:test": "jest --no-cache",
