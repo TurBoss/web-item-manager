@@ -4,7 +4,8 @@ module.exports = {
       port: 6922
     },
     db: {
-      path: './server/database/tests.sqlite'
+      path: './server/database/tests.sqlite',
+      memory: true
     }
   },
   test: {
@@ -12,7 +13,8 @@ module.exports = {
       port: 12336
     },
     db: {
-      path: './server/database/tests.sqlite'
+      path: './server/database/test-db.sqlite',
+      memory: true
     }
   }
 }[process.env.NODE_ENV];

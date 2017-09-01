@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../');
+const db = require('../utils/database');
 
 /*  eslint no-unused-vars: 0  */
 const should = chai.should();
@@ -11,6 +12,10 @@ describe('userController()', function() {
   let token = 'Bearer ';
 
   before(function(done) {
+    db.init();
+    db.insertUser({ name: 'test', password: '123', admin: true, test: false });
+    db.insertUser({ name: 'test2', password: '123', admin: false, test: false });
+
     chai.request(app)
     .post('/api/user/login')
     .send({ username: 'test', password: '123' })
@@ -32,15 +37,7 @@ describe('userController()', function() {
     });
 
     describe('get all users', function(done) {
-      it('shouldn\'t return a empty list', function(done) {
-        chai.request(app)
-        .get('/api/user/get')
-        .send({ username: 'test', password: '123', token })
-        .end((err, res) => {
-          res.body.success.should.equal(true);
-          done();
-        });
-      });
+      it('shouldn\'t return a empty list');
     });
   });
 
@@ -107,7 +104,7 @@ describe('userController()', function() {
       chai.request(app)
       .post('/api/user/add')
       .set('Authorization', token)
-      .send({ username: 'Test account', password: 'fake' })
+      .send({ username: 'test', password: 'fake' })
       .end((err, res) => {
         res.should.have.status(400);
         res.body.message.should.equal('Username already exists');
@@ -116,5 +113,11 @@ describe('userController()', function() {
     });
 
     it('should add a user to database');
+  });
+
+  after(function(done) {
+    db.drop();
+    db.close();
+    done();
   });
 });

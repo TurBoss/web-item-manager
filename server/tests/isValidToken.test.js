@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../');
+const db = require('../utils/database');
 const isValidToken = require('../utils/isValidToken');
 
 /*  eslint no-unused-vars: 0  */
@@ -12,6 +13,9 @@ describe('isValidToken()', function() {
   let validToken = 'Bearer ';
 
   before(function(done) {
+    db.init();
+    db.insertUser({ name: 'test', password: '123', admin: true, test: false });
+
     chai.request(app)
     .post('/api/user/login')
     .send({ username: 'test', password: '123' })
@@ -32,6 +36,12 @@ describe('isValidToken()', function() {
     res.success.should.equal(false);
     res = isValidToken(validToken);
     res.success.should.equal(true);
+    done();
+  });
+
+  after(function(done) {
+    db.drop();
+    db.close();
     done();
   });
 });

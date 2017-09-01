@@ -14,7 +14,7 @@ exports.getUser = async (req, res, next) => {
 
   // get single user
 
-  const users = db.prepare('SELECT id AND name FROM users').get();
+  const users = db.prepare('SELECT id AND name FROM users LIMIT 10').get();
 
   return {
     success: true,
@@ -25,7 +25,7 @@ exports.getUser = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
 
-  const user = db.prepare(`SELECT id, name, password FROM users WHERE users.name = '${username}'`).get();
+  const user = db.prepare(`SELECT id, name, password FROM users WHERE users.name = '${username}' LIMIT 1`).get();
 
   if (!user) {
     return res.status(401).json({
@@ -74,7 +74,7 @@ exports.addUser = async (req, res, next) => {
     });
   }
 
-  const exists = db.prepare(`SELECT id FROM users WHERE users.name = '${username}' COLLATE NOCASE`).get();
+  const exists = db.prepare(`SELECT id FROM users WHERE users.name = '${username}' COLLATE NOCASE LIMIT 1`).get();
 
   if (exists) {
     return res.status(400).json({
