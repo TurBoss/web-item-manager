@@ -1,5 +1,11 @@
 const jwt = require('jsonwebtoken');
 
+/**
+ * Tests if param is a valid token
+ * returns success with decoded token if true
+ * @param authorization
+ * @returns {*}
+ */
 const isValidToken = (authorization) => {
   if (!authorization) {
     return false;

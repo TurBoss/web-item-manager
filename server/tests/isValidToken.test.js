@@ -28,10 +28,14 @@ describe('isValidToken()', function() {
     done();
   });
 
-  it('should require a valid token', function(done) {
-    let res = isValidToken('invalid token');
+  it('should return success false for invalid tokens', function(done) {
+    const res = isValidToken('invalid token');
     res.success.should.equal(false);
-    res = isValidToken(validToken);
+    done();
+  });
+
+  it('should return success true for valid tokens', function(done) {
+    const res = isValidToken(validToken);
     res.success.should.equal(true);
     done();
   });
