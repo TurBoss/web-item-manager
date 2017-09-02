@@ -17,5 +17,5 @@ fs.readdirSync(testDir)
   .forEach(f => mocha.addFile(path.join(testDir, f)));
 
 mocha.run((fail) => {
-    process.exit(fail);
+  process.exit(fail);
 });

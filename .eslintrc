@@ -21,6 +21,10 @@
     "react"
   ],
   "rules": {
-    "comma-dangle": ["error", {"functions": "ignore"}]
+    "comma-dangle": ["error", { "functions": "ignore" }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "space-before-function-paren": ["error", { "anonymous": "never", "named": "never" }],
+    "func-names": ["warn", "never"],
+    "prefer-arrow-callback": ["off"]
   }
 }
