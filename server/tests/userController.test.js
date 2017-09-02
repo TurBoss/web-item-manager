@@ -21,19 +21,31 @@ describe('userController()', function() {
     });
   });
 
-  describe('getUser()', function(done) {
+  describe('getUser()', function() {
     it('should require a valid token', function(done) {
       chai.request(app)
       .get('/api/user/get')
-      .send({ username: 'test', password: '123', token: 'faketoken' })
+      .send({ username: 'test', password: '123' })
       .end((err, res) => {
         res.should.have.status(401);
         done();
       });
     });
 
-    describe('get all users', function(done) {
-      it('shouldn\'t return a empty list');
+    describe('get all users', function() {
+      it('should return a users list', function(done) {
+        chai.request(app)
+        .get('/api/user/get')
+        .set('Authorization', token)
+        .send({ username: 'test', password: '123' })
+        .end((err, res) => {
+          res.body.success.should.equal(true);
+          res.body.should.have.property('users');
+          res.body.users.length.should.equal(2);
+          res.body.users.should.deep.include({ id: 2, name: 'test2', admin: '0', test: '0' });
+          done();
+        });
+      });
     });
   });
 
@@ -77,7 +89,7 @@ describe('userController()', function() {
     it('should require a valid token', function(done) {
       chai.request(app)
       .post('/api/user/add')
-      .send({ username: 'test', password: '123', token: 'faketoken' })
+      .send({ username: 'test', password: '123' })
       .end((err, res) => {
         res.should.have.status(401);
         done();

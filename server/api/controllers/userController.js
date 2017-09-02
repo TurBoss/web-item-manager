@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../../utils/database').db;
+const db = require('../../utils/database');
 const isValidToken = require('../../utils/isValidToken');
 
+// TODO get single user - is it needed?
 exports.getUser = async (req, res, next) => {
   const token = isValidToken(req.headers.authorization);
 
@@ -12,20 +13,18 @@ exports.getUser = async (req, res, next) => {
     });
   }
 
-  // get single user
+  const users = db.getAllUsers();
 
-  const users = db.prepare('SELECT id AND name FROM users LIMIT 10').get();
-
-  return {
+  return res.json({
     success: true,
     users
-  };
+  });
 };
 
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
 
-  const user = db.prepare(`SELECT id, name, password FROM users WHERE users.name = '${username}' LIMIT 1`).get();
+  const user = db.getUser(username);
 
   if (!user) {
     return res.status(401).json({
@@ -41,12 +40,10 @@ exports.login = async (req, res, next) => {
     });
   }
 
-  const payload = {
-    username,
-    id: user.id
-  };
+  // don't sign with sensitive data
+  delete user.password;
 
-  const token = jwt.sign(payload, process.env.JWTSECRET, {
+  const token = jwt.sign(user, process.env.JWTSECRET, {
     expiresIn: '24h'
   });
 
@@ -79,7 +76,7 @@ exports.addUser = async (req, res, next) => {
     });
   }
 
-  const exists = db.prepare(`SELECT id FROM users WHERE users.name = '${username}' COLLATE NOCASE LIMIT 1`).get();
+  const exists = db.userExists(username);
 
   if (exists) {
     return res.status(400).json({
@@ -98,4 +95,8 @@ exports.addUser = async (req, res, next) => {
     success: true,
     message: `${username} successfully added`
   });
+};
+
+exports.removeUser = async (req, res, next) => {
+
 };

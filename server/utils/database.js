@@ -24,6 +24,18 @@ class SQLiteDatabase {
     this.db.prepare('DROP TABLE users').run();
   }
 
+  userExists(username) {
+    return this.db.prepare(`SELECT id FROM users WHERE users.name = '${username}' COLLATE NOCASE LIMIT 1`).get();
+  }
+
+  getUser(username) {
+    return this.db.prepare(`SELECT * FROM users WHERE users.name = '${username}' LIMIT 1`).get();
+  }
+
+  getAllUsers() {
+    return this.db.prepare('SELECT id, name, admin, test FROM users').all();
+  }
+
   insertUser({ username, password, admin = false, test = false } = {}) {
     const cryptedPassword = bcrypt.hashSync(password, 10);
 
