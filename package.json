@@ -2,14 +2,18 @@
   "name": "webapp",
   "version": "0.0.1",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notvita/web-item-manager"
+  },
   "scripts": {
-    "server": "node server",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "server:dev": "cross-env NODE_ENV=development node server",
-    "server:test": "cross-env NODE_ENV=test mocha server/tests/**/*",
+    "server:test": "cross-env NODE_ENV=test nyc mocha server/tests/**/*",
     "build": "webpack",
     "dev": "webpack-dev-server --content-base public",
     "client:test": "jest --no-cache",
-    "test": "node ./scripts/server-test.js",
+    "test": "NODE_ENV=test nyc mocha server/tests/**/*",
     "lint": "eslint **/*.js{,x} && npm run lint:style",
     "lint:style": "stylelint --syntax scss src/**/*.scss; exit 0"
   },
@@ -52,6 +56,7 @@
     "chai": "^4.1.1",
     "chai-http": "^3.0.0",
     "clean-webpack-plugin": "^0.1.16",
+    "coveralls": "^2.13.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.4",
     "eslint": "^3.19.0",
@@ -66,6 +71,7 @@
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
     "node-sass": "^4.5.3",
+    "nyc": "^11.1.0",
     "sass-loader": "^6.0.6",
     "stylelint": "^8.0.0",
     "stylelint-config-standard": "^17.0.0",
