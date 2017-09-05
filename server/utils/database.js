@@ -29,7 +29,7 @@ class SQLiteDatabase {
   }
 
   getUser(username) {
-    return this.db.prepare(`SELECT * FROM users WHERE users.name = '${username}' LIMIT 1`).get();
+    return this.db.prepare(`SELECT * FROM users WHERE users.name = '${username}' LIMIT 1`).get() || false;
   }
 
   getAllUsers() {

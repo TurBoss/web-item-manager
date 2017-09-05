@@ -29,6 +29,8 @@ describe('database()', function() {
   });
 
   describe('insertUser()', function() {
+    it('shouldn\'t insert duplicates');
+
     it('should insert user into database', function(done) {
       db.insertUser({ username: 'dbtest', password: '123', admin: true, test: false });
       const res = db.getUser('dbtest');
@@ -43,8 +45,12 @@ describe('database()', function() {
   });
 
   describe('userExists()', function() {
-    it('should return true for existing user', function(done) {
+    before(function(done) {
       db.insertUser({ username: 'dbtest', password: '123', admin: true, test: false });
+      done();
+    });
+
+    it('should return true for existing user', function(done) {
       const res = db.userExists('dbtest');
       res.should.equal(true);
       done();
@@ -63,11 +69,56 @@ describe('database()', function() {
   });
 
   describe('getUser()', function() {
-    it('should return an existing user');
+    before(function(done) {
+      db.insertUser({ username: 'dbtest', password: '123', admin: true, test: false });
+      done();
+    });
+
+    it('should return an existing user', function(done) {
+      const res = db.getUser('dbtest');
+      res.name.should.equal('dbtest');
+      res.admin.should.equal('1');
+      done();
+    });
+
+    it('should return false if user doesn\'t exist', function(done) {
+      const res = db.getUser('noexist');
+      res.should.equal(false);
+      done();
+    });
+
+    after(function(done) {
+      db.removeUser('dbtest');
+      done();
+    });
   });
 
   describe('getAllUsers()', function() {
-    it('should return array of all users');
+    before(function(done) {
+      db.drop('users');
+      db.init();
+      done();
+    });
+
+    it('should return false if there is no users', function(done) {
+      const res = db.getAllUsers();
+      res.should.deep.equal([]);
+      done();
+    });
+
+    it('should return array of all users', function(done) {
+      db.insertUser({ username: 'test3', password: '123', admin: true, test: false });
+      db.insertUser({ username: 'test4', password: '123', admin: false, test: false });
+      const res = db.getAllUsers();
+      res.length.should.equal(2);
+      done();
+    });
+
+    after(function(done) {
+      db.removeUser('test3');
+      db.removeUser('test4');
+      done();
+    });
   });
 
   describe('removeUser()', function() {
