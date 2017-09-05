@@ -42,7 +42,6 @@ describe('userController()', function() {
           res.body.success.should.equal(true);
           res.body.should.have.property('users');
           res.body.users.length.should.equal(2);
-          res.body.users.should.deep.include({ id: 2, name: 'test2', admin: '0', test: '0' });
           done();
         });
       });

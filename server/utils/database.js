@@ -14,18 +14,18 @@ class SQLiteDatabase {
 
   init() {
     this.db.prepare(
-      'CREATE TABLE users ' +
+      'CREATE TABLE IF NOT EXISTS users ' +
       '(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, password TEXT NOT NULL, ' +
       'admin TEXT NOT NULL, test TEXT NOT NULL)'
     ).run();
   }
 
-  drop() {
-    this.db.prepare('DROP TABLE users').run();
+  drop(table) {
+    return this.db.prepare(`DROP TABLE IF EXISTS ${table}`).run();
   }
 
   userExists(username) {
-    return this.db.prepare(`SELECT id FROM users WHERE users.name = '${username}' COLLATE NOCASE LIMIT 1`).get();
+    return !!this.db.prepare(`SELECT id FROM users WHERE users.name = '${username}' COLLATE NOCASE LIMIT 1`).get();
   }
 
   getUser(username) {
@@ -44,6 +44,10 @@ class SQLiteDatabase {
     ).run();
 
     return true;
+  }
+
+  removeUser(username) {
+    return this.db.prepare(`DELETE FROM users WHERE name='${username}'`).run();
   }
 }
 

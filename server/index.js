@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-require('./utils/database');
 const config = require('./config');
+require('./utils/database');
 const userRouter = require('./api/routes/userRoute');
 
 const app = express();
