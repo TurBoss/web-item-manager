@@ -29,7 +29,7 @@ describe('database()', function() {
   });
 
   describe('insertUser()', function() {
-    it('shouldn\'t insert duplicates');
+    it('should insert encrypted password');
 
     it('should insert user into database', function(done) {
       db.insertUser({ username: 'dbtest', password: '123', admin: true, test: false });

@@ -9,6 +9,7 @@ exports.getUser = async (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
+      success: false,
       message: 'Invalid token'
     });
   }
@@ -28,6 +29,7 @@ exports.login = async (req, res, next) => {
 
   if (!user) {
     return res.status(401).json({
+      success: false,
       message: `User: ${username} doesn't exist`
     });
   }
@@ -36,6 +38,7 @@ exports.login = async (req, res, next) => {
 
   if (!passwordCheck) {
     return res.status(401).json({
+      success: false,
       message: 'Incorrect password'
     });
   }
@@ -59,6 +62,7 @@ exports.addUser = async (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
+      success: false,
       message: 'Invalid token'
     });
   }
@@ -72,6 +76,7 @@ exports.addUser = async (req, res, next) => {
 
   if (!username || !password) {
     return res.status(400).json({
+      success: false,
       message: 'Username and Password required'
     });
   }
@@ -80,6 +85,7 @@ exports.addUser = async (req, res, next) => {
 
   if (exists) {
     return res.status(400).json({
+      success: false,
       message: 'Username already exists'
     });
   }
@@ -98,5 +104,28 @@ exports.addUser = async (req, res, next) => {
 };
 
 exports.removeUser = async (req, res, next) => {
+  const token = isValidToken(req.headers.authorization);
 
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid token'
+    });
+  }
+
+  const username = req.params.user;
+
+  if (!username) {
+    return res.status(400).json({
+      success: false,
+      message: 'Username required'
+    });
+  }
+
+  db.removeUser(username);
+
+  return res.json({
+    success: true,
+    message: `Successfully removed user: ${username}`
+  });
 };
