@@ -119,6 +119,56 @@ describe('userController()', function() {
       });
     });
 
-    it('should add a user to database');
+    it('should add a user to database', function(done) {
+      chai.request(app)
+      .post('/api/user/add')
+      .set('Authorization', token)
+      .send({ username: 'testaa', password: 'fake', admin: true, test: false })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+    });
+
+    after(function(done) {
+      db.removeUser('testaa');
+      done();
+    });
+  });
+
+  describe('removeUser()', function() {
+    before(function(done) {
+      db.insertUser({ username: 'dbtest', password: '123', admin: true, test: false });
+      done();
+    });
+
+    it('should require a valid token', function(done) {
+      chai.request(app)
+      .delete('/api/user/remove/test2')
+      .end((err, res) => {
+        res.should.have.status(401);
+        done();
+      });
+    });
+
+    it('should require an existing user', function(done) {
+      chai.request(app)
+      .delete('/api/user/remove/test2333')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+    });
+
+    it('should remove existing user', function(done) {
+      chai.request(app)
+      .delete('/api/user/remove/dbtest')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+    });
   });
 });

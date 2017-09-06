@@ -115,10 +115,10 @@ exports.removeUser = async (req, res, next) => {
 
   const username = req.params.user;
 
-  if (!username) {
+  if (!db.userExists(username)) {
     return res.status(400).json({
       success: false,
-      message: 'Username required'
+      message: `${username} doesn't exist`
     });
   }
 
