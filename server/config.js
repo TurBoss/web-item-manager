@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     app: {
-      port: 6922
+      port: 12336
     },
     db: {
       path: './server/database/test.sqlite',
